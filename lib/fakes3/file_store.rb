@@ -17,12 +17,10 @@ module FakeS3
 
     def initialize(root)
       @root = root
-      @buckets = []
       @bucket_hash = {}
       Dir[File.join(root,"*")].each do |bucket|
         bucket_name = File.basename(bucket)
         bucket_obj = Bucket.new(bucket_name,Time.now,[])
-        @buckets << bucket_obj
         @bucket_hash[bucket_name] = bucket_obj
       end
     end
@@ -47,7 +45,7 @@ module FakeS3
     end
 
     def buckets
-      @buckets
+      @bucket_hash.values
     end
 
     def get_bucket_folder(bucket)
@@ -62,7 +60,6 @@ module FakeS3
       FileUtils.mkdir_p(File.join(@root,bucket))
       bucket_obj = Bucket.new(bucket,Time.now,[])
       if !@bucket_hash[bucket]
-        @buckets << bucket_obj
         @bucket_hash[bucket] = bucket_obj
       end
       bucket_obj
