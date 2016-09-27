@@ -21,6 +21,16 @@ To run a fakes3 server, you just specify a root and a port.
 
     fakes3 -r /mnt/fakes3_root -p 4567
 
+## Important note
+
+For any bucket that has a name which can be used as subdomain (no underscores or capital letters, see: http://stackoverflow.com/questions/7111881/what-are-the-allowed-characters-in-a-sub-domain), the AWS V2 SDK will make requests using the buckets name as a subdomain. This means you'll need to be able to route requests for that subdomain to localhost. You can do this by adding the following to /etc/hosts:
+
+127.0.0.1 my-example-bucket.localhost
+
+On CircleCI, there's a handy option for adding host entries: https://circleci.com/docs/configuration/#hosts
+
+If you want to be able to create arbitrary buckets in fake-s3 without editing /etc/hosts, you'll need to setup wildcard subdomains for localhost with something like dnsmasq.
+
 ## Connecting to FakeS3
 
 Take a look at the test cases to see client example usage.  For now, FakeS3 is

@@ -340,9 +340,9 @@ module FakeS3
           elems = path.split("/")
         end
 
-        if elems.size == 0
+        if elems.size == 0 && !s_req.bucket
           raise UnsupportedOperation
-        elsif elems.size == 1
+        elsif elems.size == 1 || (s_req.bucket && elems.size == 0)
           s_req.type = Request::DELETE_BUCKET
           s_req.query = query
         else
