@@ -68,8 +68,7 @@ module FakeS3
     def delete_bucket(bucket_name)
       bucket = get_bucket(bucket_name)
       raise NoSuchBucket if !bucket
-      raise BucketNotEmpty if bucket.objects.count > 0
-      FileUtils.rm_r(get_bucket_folder(bucket))
+      FileUtils.rm_rf(get_bucket_folder(bucket))
       @bucket_hash.delete(bucket_name)
     end
 
